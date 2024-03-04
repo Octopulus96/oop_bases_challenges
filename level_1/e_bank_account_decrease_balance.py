@@ -10,22 +10,26 @@
 
 
 class BankAccount:
-    def __init__(self, owner_full_name: str, balance: float):
+    def __init__(self, owner_full_name: str, balance: float) -> None:
         self.owner_full_name = owner_full_name
         self.balance = balance
 
-    def increase_balance(self, income: float) -> float:
-        bank_statement = self.balance * income
-        return bank_statement
+    def increase_balance(self, income: float) -> None:
+        self.balance += income
     
-    def reducing_balance(self, income: float) -> float:
-        self.balance -= income
-        if self.balance < 0:
+    def reducing_balance(self, income: float) -> None:
+        if self.balance < income:
             raise ValueError
         else:
-            return self.balance
+            self.balance -= income
 
 if __name__ == '__main__':
     account = BankAccount("Makarov Valentine", 102.00)
-    print(account.reducing_balance(60.00))
-    print(account.reducing_balance(223.00))
+    print(account.balance)
+    account.reducing_balance(60.00)
+    print(account.balance)
+    account.reducing_balance(60.00)
+    print(account.balance)
+
+
+

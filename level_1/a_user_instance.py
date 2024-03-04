@@ -6,7 +6,7 @@
 
 
 class User:
-    def __init__(self, name: str, username: str, age: int, phone: str):
+    def __init__(self, name: str, username: str, age: int, phone: str) -> None :
         self.name = name
         self.username = username
         self.age = age
@@ -15,5 +15,9 @@ class User:
 
 if __name__ == '__main__':
     account = User("Valentine", "Octopulus96", 27, "+44 (323) 257-8854")
-    a = account
-    print(f"Информация о пользователе: {a.name}, {a.username}, {a.age}, {a.phone}.")
+    print("Информация о пользователе: {name}, {username}, {age}, {phone}.".format(
+        name=account.name,
+        username=account.username,
+        age=account.age,
+        phone=account.phone
+    ))
