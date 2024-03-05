@@ -9,25 +9,29 @@
        Для определения текущего часа можно использовать datetime.now().hour
     3. Создайте экземпляр класса AlcoholProduct и проверьте, можно ли сейчас продавать алкоголь.
 """
-from datetime import datetime
-
+from datetime import datetime, time
 
 class Product:
-    def __init__(self, title, price, stock_quantity):
+    def __init__(self, title: str, price: float, stock_quantity: int) -> None:
         self.title = title
         self.price = price
         self.stock_quantity = stock_quantity
 
-    def get_discounted_price(self, discount_percentage):
+    def get_discounted_price(self, discount_percentage: float) -> int | float:
         return self.price * (1 - discount_percentage / 100)
 
-    def is_available(self):
+    def is_available(self) -> bool:
         return self.stock_quantity > 0
-
-
+    
 class AlcoholProduct(Product):
-    pass  # код писать тут
+    def is_available(self) -> bool:
+        if (time(23, 0, 0) <= datetime.now().time() < time(5, 0, 0)) is False:
+            return False
+        else:
+            return super().is_available()
 
 
 if __name__ == '__main__':
-    pass  # код писать тут
+    alcohol_product = AlcoholProduct("vine", 83, 21)
+    print(alcohol_product.is_available())
+
