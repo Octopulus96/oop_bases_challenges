@@ -8,24 +8,33 @@
     4. Создать экземпляр класс CreditAccount и вызвать у него каждый из возможных методов.
 """
 
-# код писать тут
+from faker import Faker 
 
-
-class CreditAccount:
-    def __init__(self, owner_full_name: str, balance: float):
+class BankAccount:
+    def __init__(self, owner_full_name: str, balance: float) -> None:
         self.owner_full_name = owner_full_name
         self.balance = balance
 
-    def increase_balance(self, amount: float):
+    def increase_balance(self, amount: float) -> None:
         self.balance += amount
 
-    def decrease_balance(self, amount: float):
+    def decrease_balance(self, amount: float) -> None:
         self.balance -= amount
 
-    def is_eligible_for_credit(self):
+
+class CreditAccount(BankAccount):
+
+    def is_eligible_for_credit(self) -> float:
         return self.balance > 1000
 
 
 if __name__ == '__main__':
-    pass  # код писать тут
+    fake = Faker()
+    bank_customer = BankAccount(fake.name(), fake.random_int())
+    bank_customer.increase_balance(fake.random_int())
+    bank_customer.decrease_balance(fake.random_int())
+
+    middle_manager = CreditAccount(fake.name(), fake.random_int())
+    middle_manager.decrease_balance(fake.random_int())
+
 
