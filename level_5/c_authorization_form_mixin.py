@@ -13,21 +13,38 @@ USERNAMES_IN_DB = ['Alice_2023', 'BobTheBuilder', 'CrazyCoder', 'DataDiva', 'Epi
 
 
 class Form:
-    def __init__(self, username: str, password: str):
+    def __init__(self, username: str, password: str) -> None:
         self.username = username
         self.password = password
 
-    def valid_form(self):
+    def valid_form(self) -> bool:
         return len(self.password) > 8
 
 
 class AuthorizationFormMixin:
-    def valid_form(self):
-        pass  # писать код тут
+    def valid_form(self) -> bool:
+        # Проверка наличия юзернэйма в базе данных
+        if self.username not in USERNAMES_IN_DB:
+            return False
+        # Вызов метода valid_form из базового класса
+        return super().valid_form()
 
-
-# писать код тут
+class AuthorizationForm(AuthorizationFormMixin, Form):
+    pass
 
 
 if __name__ == '__main__':
-    pass  # писать код тут
+    # Создание экземпляра AuthorizationForm
+    form = AuthorizationForm('Alice_2023', 'password123')
+    # Проверка валидности формы
+    print(form.valid_form()) # Должно вернуть True
+
+    # Создание экземпляра AuthorizationForm с неверным юзернэймом
+    form_invalid_username = AuthorizationForm('NotInDB', 'password123')
+    # Проверка валидности формы
+    print(form_invalid_username.valid_form()) # Должно вернуть False
+
+    # Создание экземпляра AuthorizationForm с коротким паролем
+    form_short_password = AuthorizationForm('Alice_2023', 'short')
+    # Проверка валидности формы
+    print(form_short_password.valid_form()) # Должно вернуть False
